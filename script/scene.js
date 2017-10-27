@@ -1,3 +1,7 @@
+/*
+ * Enable the JavaScript Strict Mode: changes previously accepted "bad syntax" into real errors.
+ */
+"use strict";
 
 /**
  * Create a Scene object.

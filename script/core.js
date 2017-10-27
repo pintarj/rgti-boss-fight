@@ -1,3 +1,7 @@
+/*
+ * Enable the JavaScript Strict Mode: changes previously accepted "bad syntax" into real errors.
+ */
+"use strict";
 
 /**
  * The canvas on which the drawings will be performed. Variable assigned during the call of the boot() function.
