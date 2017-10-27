@@ -7,25 +7,25 @@
  * The canvas on which the drawings will be performed. Variable assigned during the call of the boot() function.
  * @type {HTMLCanvasElement}
  * */
-var the_canvas = null;
+var the_canvas = undefined;
 
 /**
  * The WebGL rendering context. Variable assigned during the call of the boot() function.
  * @type {WebGLRenderingContext}
  * */
-var gl = null;
+var gl = undefined;
 
 /**
  * The last timestamp passed as argument to the loop() method. The unit is milliseconds.
  * @type {number}
  * */
-var previous_loop_timestamp = null;
+var previous_loop_timestamp = undefined;
 
 /**
  * The current scene to update/draw during the frame rendering requests.
  * @type {Scene}
  * */
-var current_scene = null;
+var current_scene = undefined;
 
 /**
  * Update and draw the scene. This method will recursively call itself every time that a frame rendering is required by
