@@ -68,7 +68,7 @@ function on_resize() {
  * @return {Scene}
  * */
 function create_initial_scene() {
-    return new Scene("base");
+    return new GameScene();
 }
 
 /**
