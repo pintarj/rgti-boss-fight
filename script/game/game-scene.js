@@ -7,8 +7,19 @@
  * Create a GameScene object.
  * */
 function GameScene() {
-    Scene.call(this, "game-scene");
+    Scene.call(this, 'game-scene');
+    this.cube = new SceneObject('cube', 'janez');
 }
+
+/**
+ * Inherit Scene.
+ * */
+GameScene.prototype = Object.create(Scene.prototype);
+
+/**
+ * Correct the constructor pointer because it points to Scene.
+ */
+GameScene.prototype.constructor = GameScene;
 
 /**
  * Update the scene.
@@ -26,14 +37,5 @@ GameScene.prototype.update = function (delta) {
 GameScene.prototype.draw = function () {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-};
-
-/**
- * Called when the canvas is change size.
- * @param {number} width - The new width of the canvas.
- * @param {number} height - The new height of the canvas.
- * @return {undefined}
- * */
-GameScene.prototype.on_resize = function (width, height) {
-
+    this.cube.draw();
 };
