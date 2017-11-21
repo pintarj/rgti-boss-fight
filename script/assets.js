@@ -63,3 +63,9 @@ AssetLoadedCounter.prototype.increment = function () {
 AssetLoadedCounter.prototype.isCompleted = function () {
     return this.counter === this.target;
 };
+
+/**
+ * Count the assets to be loaded.
+ * @type {AssetLoadedCounter}
+ * */
+var assetsLoading = new AssetLoadedCounter(3);

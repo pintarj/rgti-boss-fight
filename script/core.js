@@ -77,6 +77,9 @@ function on_resize() {
 
     if (current_scene)
         current_scene.on_resize(w, h);
+
+    var loadingMessage = document.getElementById('loading_message');
+    loadingMessage.style.top = Math.ceil((h - loadingMessage.style.height) / 2) + 'px';
 }
 
 /**
@@ -84,7 +87,7 @@ function on_resize() {
  * @return {Scene}
  * */
 function create_initial_scene() {
-    return new GameScene();
+    return new LoadingScene();
 }
 
 /**
@@ -103,6 +106,9 @@ function boot() {
 
         startLoadingShaders();
         startLoadingModels();
+        setTimeout(function () {
+            assetsLoading.increment();
+        }, 1000);
         current_scene = create_initial_scene();
         window.requestAnimationFrame(loop);
     } catch (exception) {
