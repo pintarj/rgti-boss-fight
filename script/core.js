@@ -48,6 +48,9 @@ function formatExceptionMessage(exception) {
  * */
 function loop(timestamp) {
     try {
+        if (current_scene.nextScene !== undefined)
+            current_scene = current_scene.nextScene;
+
         if (!previous_loop_timestamp)
             previous_loop_timestamp = timestamp - 1000.0 / 60.0;
 

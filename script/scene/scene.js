@@ -9,6 +9,8 @@
  * */
 function Scene(id) {
     this.id = id;
+    this.nextScene = undefined;
+    this.camera = new SceneCamera();
 }
 
 /**
@@ -18,6 +20,15 @@ function Scene(id) {
  * */
 Scene.prototype.update = function (delta) {
     // Default implementation does nothing.
+};
+
+/**
+ * Set the next scene.
+ * @param {Scene} nextScene - The next scene.
+ * @return {undefined}
+ * */
+Scene.prototype.setNextScene = function (nextScene) {
+    this.nextScene = nextScene;
 };
 
 /**
