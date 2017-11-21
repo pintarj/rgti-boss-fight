@@ -28,6 +28,19 @@ var previous_loop_timestamp = undefined;
 var current_scene = undefined;
 
 /**
+ * Format a string that describe the specified exception
+ * @param {Error} exception - The exception.
+ * @return {string} The formatted string.
+ * */
+function formatExceptionMessage(exception) {
+    return '### Exception:\n\n'
+        + '# message:\n   '
+        + exception.message + '\n\n'
+        + '# stack:\n'
+        + exception.stack.replace(/((\n[^$])|^)/g, '\n ~ ');
+}
+
+/**
  * Update and draw the scene. This method will recursively call itself every time that a frame rendering is required by
  * the browser. This method is firstly called by the boot() method.
  * @param {number} timestamp - The timestamp of the frame rendering request.
@@ -44,7 +57,7 @@ function loop(timestamp) {
         previous_loop_timestamp = timestamp;
         window.requestAnimationFrame(loop);
     } catch (exception) {
-        console.error(exception.message);
+        console.error(formatExceptionMessage(exception));
     }
 }
 
@@ -88,6 +101,6 @@ function boot() {
         current_scene = create_initial_scene();
         window.requestAnimationFrame(loop);
     } catch (exception) {
-        console.error(exception.message);
+        console.error(formatExceptionMessage(exception));
     }
 }
