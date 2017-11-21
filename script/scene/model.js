@@ -134,7 +134,9 @@ var models = {};
  * Starts loading models assets asynchronously. This function is called at boot.
  * */
 function startLoadingModels() {
-    modelLoadingCounter = new AssetLoadedCounter(modelsNames.length);
+    modelLoadingCounter = new AssetLoadedCounter(modelsNames.length, function () {
+        assetsLoading.increment();
+    });
 
     modelsNames.forEach(function (name) {
         loadAsset(name + '.obj', function (source) {

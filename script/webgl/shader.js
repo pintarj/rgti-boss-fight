@@ -106,6 +106,13 @@ var programsStructures = [
 ];
 
 /**
+ * The "asserts loaded" counter for the program loading.
+ * @type {AssetLoadedCounter}
+ * */
+var programsLoadingCounter;
+
+
+/**
  * The collection (a map) that will store the linked programs.
  * */
 var programs = {};
@@ -114,6 +121,11 @@ var programs = {};
  * Create the GL programs. This function is invoked after all the shaders are compiled.
  * */
 function startCreatingPrograms() {
+
+    programsLoadingCounter = new AssetLoadedCounter(programsStructures.length, function () {
+        assetsLoading.increment();
+    });
+
     programsStructures.forEach(function (structure) {
         var program = createProgram([
             shaders[structure.vertexShader],
@@ -133,5 +145,6 @@ function startCreatingPrograms() {
         });
 
         programs[program.name] = program;
+        programsLoadingCounter.increment();
     });
 }
