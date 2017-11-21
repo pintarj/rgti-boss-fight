@@ -99,6 +99,7 @@ function boot() {
         });
 
         startLoadingShaders();
+        startLoadingModels();
         current_scene = create_initial_scene();
         window.requestAnimationFrame(loop);
     } catch (exception) {

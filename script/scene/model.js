@@ -110,3 +110,36 @@ Model.prototype.bindArrayBuffer = function () {
 Model.prototype.bindElementArrayBuffer = function () {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.elementArrayBuffer);
 };
+
+
+/**
+ * The array that contains all models asserts names to load at boot.
+ * */
+var modelsNames = [
+    'cube'
+];
+
+/**
+ * The "asserts loaded" counter for the models loading.
+ * @type {AssetLoadedCounter}
+ * */
+var modelLoadingCounter;
+
+/**
+ * The collection (a map) that will store the models.
+ * */
+var models = {};
+
+/**
+ * Starts loading models assets asynchronously. This function is called at boot.
+ * */
+function startLoadingModels() {
+    modelLoadingCounter = new AssetLoadedCounter(modelsNames.length);
+
+    modelsNames.forEach(function (name) {
+        loadAsset(name + '.obj', function (source) {
+            models[name] = new Model(source);
+            modelLoadingCounter.increment();
+        });
+    });
+}
