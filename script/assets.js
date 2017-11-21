@@ -30,3 +30,36 @@ function loadAsset(name, successCallback, errorCallback) {
 
     request.send();
 }
+
+/**
+ * The constructor for the AssetLoadedCounter class.
+ * @param {number} target - The number of assets that has to be loaded.
+ * @param {function} loadedCallback - Called when the counter reaches the specified target of loaded assets. This is
+ *     not a required parameter.
+ * */
+function AssetLoadedCounter(target, loadedCallback)
+{
+    this.counter = 0;
+    this.target = target;
+    this.loadedCallback = loadedCallback || function () {};
+}
+
+/**
+ * Increments the internal counter.
+ * @return {undefined}
+ * */
+AssetLoadedCounter.prototype.increment = function () {
+    ++this.counter;
+
+    if (this.counter === this.target)
+        this.loadedCallback();
+};
+
+
+/**
+ * Tells if the counter has reached the target.
+ * @return {boolean} true if the target were reached, false otherwise.
+ * */
+AssetLoadedCounter.prototype.isCompleted = function () {
+    return this.counter === this.target;
+};
