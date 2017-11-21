@@ -98,6 +98,7 @@ function boot() {
             on_resize();
         });
 
+        startLoadingShaders();
         current_scene = create_initial_scene();
         window.requestAnimationFrame(loop);
     } catch (exception) {

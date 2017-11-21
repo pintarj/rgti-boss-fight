@@ -9,9 +9,9 @@
  * @param {string} source - The shader source (written in GLSL).
  * @return {WebGLShader} The shader created out of given source.
  * */
-function compile_shader(type, source) {
+function compileShader(type, source) {
     var shader = gl.createShader(type);
-    gl.shaderSource(shader, sourceCode);
+    gl.shaderSource(shader, source);
     gl.compileShader(shader);
 
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
@@ -29,7 +29,7 @@ function compile_shader(type, source) {
  *    locations. This parameter is not required.
  * @return {WebGLProgram} The WebGL program created out of parameters.
  * */
-function create_program(shaders, attributes_bind_locations) {
+function createProgram(shaders, attributes_bind_locations) {
     var program = gl.createProgram();
 
     shaders.forEach(function(shader) {
@@ -54,4 +54,84 @@ function create_program(shaders, attributes_bind_locations) {
     });
 
     return program;
+}
+
+/**
+ * The array that contains all shaders asserts names to compile at boot.
+ * */
+var shadersNames = [
+    "janez.fragment",
+    "janez.vertex"
+];
+
+/**
+ * The collection (a map) that will store the compiled shaders.
+ * */
+var shaders = {};
+
+/**
+ * The "asserts loaded"counter for the shaders loading.
+ * @type {AssetLoadedCounter}
+ * */
+var shadersLoadingCounter;
+
+/**
+ * Starts loading shaders assets asynchronously. This function is called at boot.
+ * */
+function startLoadingShaders() {
+
+    shadersLoadingCounter = new AssetLoadedCounter(shadersNames.length, startCreatingPrograms);
+
+    shadersNames.forEach(function (name) {
+        loadAsset(name + '.glsl', function (source) {
+            var type = name.endsWith('vertex') ? gl.VERTEX_SHADER : gl.FRAGMENT_SHADER;
+            shaders[name] = compileShader(type, source);
+            shadersLoadingCounter.increment();
+        });
+    });
+}
+
+var programsStructures = [
+    {
+        name: 'janez',
+        vertexShader: 'janez.vertex',
+        fragmentShader: 'janez.fragment',
+        attributes: [
+            'vertex'
+        ],
+        uniforms: [
+            'mvp'
+        ]
+    }
+];
+
+/**
+ * The collection (a map) that will store the linked programs.
+ * */
+var programs = {};
+
+/**
+ * Create the GL programs. This function is invoked after all the shaders are compiled.
+ * */
+function startCreatingPrograms() {
+    programsStructures.forEach(function (structure) {
+        var program = createProgram([
+            shaders[structure.vertexShader],
+            shaders[structure.fragmentShader]
+        ]);
+
+        program['name'] = structure.name;
+
+        structure.attributes.forEach(function (attribute) {
+            var objectAttributeName = attribute + 'AttributeLocation';
+            program[objectAttributeName] = gl.getAttribLocation(program, attribute);
+        });
+
+        structure.uniforms.forEach(function (uniform) {
+            var objectAttributeName = uniform + 'UniformLocation';
+            program[objectAttributeName] = gl.getUniformLocation(program, uniform);
+        });
+
+        programs[program.name] = program;
+    });
 }
