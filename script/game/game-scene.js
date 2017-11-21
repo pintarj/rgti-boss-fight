@@ -9,6 +9,7 @@
 function GameScene() {
     Scene.call(this, 'game-scene');
     this.cube = new SceneObject('cube', 'janez');
+    this.time = 0;
 }
 
 /**
@@ -27,7 +28,8 @@ GameScene.prototype.constructor = GameScene;
  * @return {undefined}
  * */
 GameScene.prototype.update = function (delta) {
-
+    this.time += delta;
+    this.cube.setPosition([Math.sin(this.time) * 5, 0, -8]);
 };
 
 /**
