@@ -133,6 +133,10 @@ function boot() {
             current_scene.onKeyUp(event);
         });
 
+        window.addEventListener('mousemove', function (event) {
+            current_scene.onMouseMove(event);
+        });
+
         startLoadingShaders();
         startLoadingModels();
         setTimeout(function () {

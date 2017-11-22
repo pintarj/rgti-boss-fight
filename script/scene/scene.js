@@ -57,6 +57,14 @@ Scene.prototype.onKeyUp = function (event) {
 };
 
 /**
+ * Handle mouse's "onMove" events.
+ * @param {MouseEvent} event - The onMove event.
+ * */
+Scene.prototype.onMouseMove = function (event) {
+    
+};
+
+/**
  * Called when the canvas is change size.
  * @param {number} width - The new width of the canvas.
  * @param {number} height - The new height of the canvas.
