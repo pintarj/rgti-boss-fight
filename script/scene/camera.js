@@ -4,7 +4,7 @@
  * */
 function SceneCamera()
 {
-    this.position = [0, 0, 0];
+    this.position = [20, 20, 20];
     this.center = [0, 0, -1];
     this.fov = 45;
 }

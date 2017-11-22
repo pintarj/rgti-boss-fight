@@ -116,7 +116,9 @@ Model.prototype.bindElementArrayBuffer = function () {
  * The array that contains all models asserts names to load at boot.
  * */
 var modelsNames = [
-    'cube'
+    'cube',
+    'cthun',
+    'pillar'
 ];
 
 /**
