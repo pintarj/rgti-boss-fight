@@ -41,6 +41,22 @@ Scene.prototype.draw = function () {
 };
 
 /**
+ * Handle keyboard's "keyDown" events.
+ * @param {KeyboardEvent} event - The keyDown event.
+ * */
+Scene.prototype.onKeyDown = function (event) {
+
+};
+
+/**
+ * Handle keyboard's "keyUp" events.
+ * @param {KeyboardEvent} event - The keyUp event.
+ * */
+Scene.prototype.onKeyUp = function (event) {
+
+};
+
+/**
  * Called when the canvas is change size.
  * @param {number} width - The new width of the canvas.
  * @param {number} height - The new height of the canvas.

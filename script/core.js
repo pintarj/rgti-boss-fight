@@ -125,6 +125,14 @@ function boot() {
             on_resize();
         });
 
+        window.addEventListener('keydown', function (event) {
+            current_scene.onKeyDown(event);
+        });
+
+        window.addEventListener('keyup', function (event) {
+            current_scene.onKeyUp(event);
+        });
+
         startLoadingShaders();
         startLoadingModels();
         setTimeout(function () {
