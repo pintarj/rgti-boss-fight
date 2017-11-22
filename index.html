@@ -11,6 +11,7 @@
         <script type="text/javascript" src="script/scene/camera.js"></script>
         <script type="text/javascript" src="script/scene/scene.js"></script>
         <script type="text/javascript" src="script/game/game-scene.js"></script>
+        <script type="text/javascript" src="script/menu/menu-scene.js"></script>
         <script type="text/javascript" src="script/loading/loading-scene.js"></script>
         <script type="text/javascript" src="script/core.js"></script>
         <style>
@@ -33,6 +34,14 @@
                 top:            0;
                 left:           0;
             }
+            #the_menu {
+                width:              100%;
+                position:           absolute;
+                top:                0;
+                left:               0;
+                display:            none;
+                text-align:         center;
+            }
             #fps_container {
                 position:                   absolute;
                 bottom:                     0;
@@ -41,10 +50,28 @@
                 border-top-right-radius:    10px;
                 padding:                    5px;
             }
+            button {
+                background-color:   white;
+                color:              black;
+                border:             none;
+                padding:            15px 32px;
+                text-align:         center;
+                text-decoration:    none;
+                display:            inline-block;
+                font-size:          16px;
+                border-radius:      10px;
+                cursor:             pointer;
+            }
+            button:hover {
+                background-color:   #bbb;
+            }
         </style>
     </head>
     <body onload="boot()">
         <div id="loading_message">Loading...</div>
+        <div id="the_menu">
+            <button onclick="launchGame()">Play</button>
+        </div>
         <div id="fps_container">FPS: <span id="fps_value">60</span></div>
         <canvas id="the_canvas"></canvas>
     </body>

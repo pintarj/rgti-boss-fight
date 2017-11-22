@@ -105,6 +105,9 @@ function on_resize() {
 
     var loadingMessage = document.getElementById('loading_message');
     loadingMessage.style.top = Math.ceil((h - loadingMessage.style.height) / 2) + 'px';
+
+    var the_menu = document.getElementById('the_menu');
+    the_menu.style.top = Math.ceil((h - the_menu.style.height) / 2) + 'px';
 }
 
 /**
