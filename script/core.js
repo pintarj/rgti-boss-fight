@@ -22,6 +22,18 @@ var gl = undefined;
 var previous_loop_timestamp = undefined;
 
 /**
+ * The last timestamp of the FPS calculation. The unit is milliseconds.
+ * @type {number}
+ * */
+var previous_FPS_timestamp = undefined;
+
+/**
+ * The number of frames in this calculation.
+ * @type {number}
+ * */
+var FPS_counter = 0;
+
+/**
  * The current scene to update/draw during the frame rendering requests.
  * @type {Scene}
  * */
@@ -51,13 +63,22 @@ function loop(timestamp) {
         if (current_scene.nextScene !== undefined)
             current_scene = current_scene.nextScene;
 
-        if (!previous_loop_timestamp)
+        if (!previous_loop_timestamp) {
             previous_loop_timestamp = timestamp - 1000.0 / 60.0;
+            previous_FPS_timestamp = previous_loop_timestamp;
+        }
+
+        if (timestamp - previous_FPS_timestamp >= 1000) {
+            document.getElementById('fps_value').innerHTML = FPS_counter;
+            FPS_counter = 0;
+            previous_FPS_timestamp += 1000;
+        }
 
         var delta = (timestamp - previous_loop_timestamp) / 1000.0;
         current_scene.update(delta);
         current_scene.draw();
         previous_loop_timestamp = timestamp;
+        ++FPS_counter;
         window.requestAnimationFrame(loop);
     } catch (exception) {
         console.error(formatExceptionMessage(exception));
