@@ -61,7 +61,7 @@ Scene.prototype.onKeyUp = function (event) {
  * @param {MouseEvent} event - The onMove event.
  * */
 Scene.prototype.onMouseMove = function (event) {
-    
+
 };
 
 /**
@@ -72,4 +72,12 @@ Scene.prototype.onMouseMove = function (event) {
  * */
 Scene.prototype.on_resize = function (width, height) {
     // Default implementation does nothing.
+};
+
+/**
+ * Tells the core if the scene requires the mouse pointer locked (hidden).
+ * @return {boolean} true (default implementation) if it's required, false otherwise.
+ * */
+Scene.prototype.requirePointerLock = function () {
+    return true;
 };

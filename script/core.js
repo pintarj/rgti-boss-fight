@@ -60,8 +60,12 @@ function formatExceptionMessage(exception) {
  * */
 function loop(timestamp) {
     try {
-        if (current_scene.nextScene !== undefined)
+        if (current_scene.nextScene !== undefined) {
             current_scene = current_scene.nextScene;
+
+            if (!current_scene.requirePointerLock())
+                document.exitPointerLock();
+        }
 
         if (!previous_loop_timestamp) {
             previous_loop_timestamp = timestamp - 1000.0 / 60.0;
@@ -118,12 +122,26 @@ function create_initial_scene() {
 function boot() {
     try {
         the_canvas = document.getElementById("the_canvas");
+        the_canvas.requestPointerLock = the_canvas.requestPointerLock
+            || the_canvas.mozRequestPointerLock
+            || the_canvas.webkitRequestPointerLock;
+        document.exitPointerLock = document.exitPointerLock
+            || document.mozExitPointerLock
+            || document.webkitExitPointerLock;
+
         gl = the_canvas.getContext("webgl") || the_canvas.getContext("webgl-experimental");
+        current_scene = create_initial_scene();
         on_resize();
 
         window.addEventListener("resize", function(event) {
             on_resize();
         });
+
+        startLoadingShaders();
+        startLoadingModels();
+        setTimeout(function () {
+            assetsLoading.increment();
+        }, 1000);
 
         window.addEventListener('keydown', function (event) {
             current_scene.onKeyDown(event);
@@ -137,12 +155,6 @@ function boot() {
             current_scene.onMouseMove(event);
         });
 
-        startLoadingShaders();
-        startLoadingModels();
-        setTimeout(function () {
-            assetsLoading.increment();
-        }, 1000);
-        current_scene = create_initial_scene();
         window.requestAnimationFrame(loop);
     } catch (exception) {
         console.error(formatExceptionMessage(exception));

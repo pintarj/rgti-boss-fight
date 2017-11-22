@@ -28,7 +28,7 @@ LoadingScene.prototype.constructor = LoadingScene;
 LoadingScene.prototype.update = function (delta) {
     if (assetsLoading.isCompleted()) {
         document.getElementById('loading_message').style.visibility = 'hidden';
-        this.setNextScene(new GameScene());
+        this.setNextScene(new MenuScene());
     }
 };
 
@@ -39,4 +39,12 @@ LoadingScene.prototype.update = function (delta) {
 LoadingScene.prototype.draw = function () {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+};
+
+/**
+ * Tells the core if the scene requires the mouse pointer locked (hidden).
+ * @return {boolean} true if it's required, false otherwise.
+ * */
+LoadingScene.prototype.requirePointerLock = function () {
+    return false;
 };
