@@ -118,7 +118,8 @@ Model.prototype.bindElementArrayBuffer = function () {
 var modelsNames = [
     'cube',
     'cthun',
-    'pillar'
+    'pillar',
+    'hero'
 ];
 
 /**
