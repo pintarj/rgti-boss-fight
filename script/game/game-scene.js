@@ -49,9 +49,9 @@ GameScene.prototype.constructor = GameScene;
  * Update the camera so that is looking at the hero from behind.
  * */
 GameScene.prototype.updateCamera = function () {
-    this.camera.lookAt(this.hero.position);
+    this.camera.lookAt([this.hero.position[0], 2.3, this.hero.position[2]]);
     var x = this.hero.position[0] - 5 * Math.sin(this.hero.orientation);
-    var y = 2;
+    var y = 3;
     var z = this.hero.position[2] + 5 * Math.cos(this.hero.orientation);
     this.camera.setPosition([x, y, z]);
 };
