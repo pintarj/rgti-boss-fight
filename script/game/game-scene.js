@@ -13,6 +13,14 @@ function GameScene() {
     this.pillar2 = new SceneObject('pillar', 'janez');
     this.hero = new Hero();
 
+    // columns generation
+    this.columns = [];
+    var columnsNumber = 20;
+
+    for (var i = 0; i < columnsNumber; ++i) {
+        this.columns.push(new Column(20, i * 360 / columnsNumber));
+    }
+
     // array that tells which key is pressed
     this.wasd = [false, false, false, false];
 
@@ -84,8 +92,11 @@ GameScene.prototype.update = function (delta) {
 GameScene.prototype.draw = function () {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    this.pillar1.draw();
-    this.pillar2.draw();
+
+    this.columns.forEach(function(column) {
+        column.draw();
+    });
+
     this.hero.draw();
     this.cthun.draw();
 };
