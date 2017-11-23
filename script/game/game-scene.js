@@ -8,7 +8,7 @@
  * */
 function GameScene() {
     Scene.call(this, 'game-scene');
-    this.cthun = new SceneObject('cthun', 'janez');
+    this.cthun = new Cthun();
     this.pillar1 = new SceneObject('pillar', 'janez');
     this.pillar2 = new SceneObject('pillar', 'janez');
     this.hero = new Hero();
@@ -64,17 +64,17 @@ GameScene.prototype.update = function (delta) {
         var z = this.hero.position[2];
         x += delta * this.hero.speed * Math.sin(this.hero.orientation) * heroMoveVector[1];
         z -= delta * this.hero.speed * Math.cos(this.hero.orientation) * heroMoveVector[1];
-
         x += delta * this.hero.speed * Math.cos(this.hero.orientation) * heroMoveVector[0];
         z += delta * this.hero.speed * Math.sin(this.hero.orientation) * heroMoveVector[0];
-
-
-        //x += delta * this.hero.speed * Math.cos(this.hero.orientation) * heroMoveVector[0];
-        //z -= delta * this.hero.speed * Math.sin(this.hero.orientation) * heroMoveVector[0];
         this.hero.setPosition([x, 0, z]);
     }
 
     this.updateCamera();
+
+    // update Cthun and its laser
+    var orientation = this.cthun.orientation + delta * this.cthun.speed;
+    this.cthun.orientation = orientation;
+    this.cthun.laser.orientation = orientation;
 };
 
 /**
@@ -84,10 +84,10 @@ GameScene.prototype.update = function (delta) {
 GameScene.prototype.draw = function () {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
-    this.cthun.draw();
     this.pillar1.draw();
     this.pillar2.draw();
     this.hero.draw();
+    this.cthun.draw();
 };
 
 /**

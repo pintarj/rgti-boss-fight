@@ -119,7 +119,8 @@ var modelsNames = [
     'cube',
     'cthun',
     'pillar',
-    'hero'
+    'hero',
+    'laser'
 ];
 
 /**
