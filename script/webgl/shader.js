@@ -97,7 +97,8 @@ var programsStructures = [
         vertexShader: 'janez.vertex',
         fragmentShader: 'janez.fragment',
         attributes: [
-            'vertex'
+            'vertex',
+            'normal'
         ],
         uniforms: [
             'mvp'

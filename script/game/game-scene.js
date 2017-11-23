@@ -9,8 +9,6 @@
 function GameScene() {
     Scene.call(this, 'game-scene');
     this.cthun = new Cthun();
-    this.pillar1 = new SceneObject('pillar', 'janez');
-    this.pillar2 = new SceneObject('pillar', 'janez');
     this.hero = new Hero();
 
     // columns generation
@@ -23,9 +21,6 @@ function GameScene() {
 
     // array that tells which key is pressed
     this.wasd = [false, false, false, false];
-
-    this.pillar1.setPosition([ 2, 0, -3]);
-    this.pillar2.setPosition([ 5, 0, 15]);
 }
 
 /**
@@ -91,7 +86,7 @@ GameScene.prototype.update = function (delta) {
  * */
 GameScene.prototype.draw = function () {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     this.columns.forEach(function(column) {
         column.draw();

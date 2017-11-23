@@ -35,6 +35,7 @@ SceneObject.prototype.calculateViewMatrix = function () {
  * @return {undefined}
  * */
 SceneObject.prototype.draw = function () {
+    gl.enable(gl.DEPTH_TEST);
     gl.useProgram(this.program);
 
     var mvp = current_scene.camera.calculatePVMatrix();
@@ -44,6 +45,9 @@ SceneObject.prototype.draw = function () {
     this.model.bindArrayBuffer();
     gl.enableVertexAttribArray(this.program.vertexAttributeLocation);
     gl.vertexAttribPointer(this.program.vertexAttributeLocation, 3, gl.FLOAT, false, 6 * 4, 0);
+
+    gl.enableVertexAttribArray(this.program.normalAttributeLocation);
+    gl.vertexAttribPointer(this.program.normalAttributeLocation, 3, gl.FLOAT, false, 6 * 4, 3 * 4);
 
     this.model.bindElementArrayBuffer();
     gl.drawElements(gl.TRIANGLES, this.model.elementsCount, gl.UNSIGNED_SHORT, null);
