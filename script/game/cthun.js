@@ -5,7 +5,7 @@
 function Cthun() {
     SceneObject.call(this, 'cthun', 'janez');
     this.setPosition([0, 0, 0]);
-    this.speed = 2 * Math.PI / 10; // one turn every 10s
+    this.speed = 2 * Math.PI / 1; // one turn every 10s
     this.orientation = 0;
     this.laser = new Laser();
 }

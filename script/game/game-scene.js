@@ -3,6 +3,10 @@
  */
 "use strict";
 
+
+//Global variable of starting time
+var startTime;
+
 /**
  * Create a GameScene object.
  * */
@@ -13,14 +17,22 @@ function GameScene() {
 
     // columns generation
     this.columns = [];
-    var columnsNumber = 20;
+    var columnsNumber = 10;
 
-    for (var i = 0; i < columnsNumber; ++i) {
-        this.columns.push(new Column(20, i * 360 / columnsNumber));
-    }
+
+    this.columns.push(new Column(10, 0 * 480 / columnsNumber));
+    this.columns.push(new Column(14, (1/2) * 480 / columnsNumber));
+    this.columns.push(new Column(20, (1.2) * 480 / columnsNumber));
+    this.columns.push(new Column(28, (1.6) * 480 / columnsNumber));
+    this.columns.push(new Column(38, (2.1) * 480 / columnsNumber));
+    this.columns.push(new Column(48, (2.5) * 480 / columnsNumber));
+    this.columns.push(new Column(50, (3) * 480 / columnsNumber));
 
     // array that tells which key is pressed
     this.wasd = [false, false, false, false];
+
+
+    startTime = new Date();
 }
 
 /**
@@ -38,9 +50,9 @@ GameScene.prototype.constructor = GameScene;
  * */
 GameScene.prototype.updateCamera = function () {
     this.camera.lookAt(this.hero.position);
-    var x = this.hero.position[0] - 20 * Math.sin(this.hero.orientation);
-    var y = 16;
-    var z = this.hero.position[2] + 20 * Math.cos(this.hero.orientation);
+    var x = this.hero.position[0] - 5 * Math.sin(this.hero.orientation);
+    var y = 2;
+    var z = this.hero.position[2] + 5 * Math.cos(this.hero.orientation);
     this.camera.setPosition([x, y, z]);
 };
 
@@ -75,9 +87,21 @@ GameScene.prototype.update = function (delta) {
     this.updateCamera();
 
     // update Cthun and its laser
-    var orientation = this.cthun.orientation + delta * this.cthun.speed;
+    var currentTime = new Date();
+    var difTime = currentTime - startTime;
+    var speedModify = 0;
+    if(difTime/1000 > 60 ){
+    	speedModify = 3;
+    }
+    else {
+    	speedModify = 15 - difTime * (12/60000);
+    }
+    var orientation = this.cthun.orientation + delta * (this.cthun.speed / speedModify);
     this.cthun.orientation = orientation;
     this.cthun.laser.orientation = orientation;
+    
+	
+	
 };
 
 /**
@@ -143,5 +167,5 @@ GameScene.prototype.onKeyUp = function (event) {
  * @param {MouseEvent} event - The onMove event.
  * */
 GameScene.prototype.onMouseMove = function (event) {
-    this.hero.orientation += event.movementX / 400;
+    this.hero.orientation += event.movementX / 200;
 };
