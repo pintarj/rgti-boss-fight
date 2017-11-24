@@ -142,6 +142,7 @@ function boot() {
 
         startLoadingShaders();
         startLoadingModels();
+        startLoadingTextures();
         setTimeout(function () {
             assetsLoading.increment();
         }, 1000);

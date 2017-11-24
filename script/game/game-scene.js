@@ -58,7 +58,7 @@ GameScene.prototype.updateCamera = function () {
     var pMatrix = this.camera.calculatePVMatrix();
 
     // update programs pMatrix
-    ['janez', 'laser'].forEach(function (name) {
+    ['janez', 'laser', 'arena-tex'].forEach(function (name) {
         var program = programs[name];
         gl.useProgram(program);
         gl.uniformMatrix4fv(program.pMatrixUniformLocation, false, pMatrix);

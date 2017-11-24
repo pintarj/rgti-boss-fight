@@ -16,6 +16,15 @@ function loadAsset(name, successCallback, errorCallback) {
         }
     }
 
+    if (name.endsWith('.png')) {
+        var image = new Image();
+        image.onload = function () {
+            successCallback(image);
+        };
+        image.src = './asset/' + name;
+        return;
+    }
+
     var request = new XMLHttpRequest();
     request.open('GET', './asset/' + name);
     request.overrideMimeType('text/plain');
@@ -69,4 +78,4 @@ AssetLoadedCounter.prototype.isCompleted = function () {
  * Count the assets to be loaded.
  * @type {AssetLoadedCounter}
  * */
-var assetsLoading = new AssetLoadedCounter(3);
+var assetsLoading = new AssetLoadedCounter(4);

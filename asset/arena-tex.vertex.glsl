@@ -1,5 +1,6 @@
 
 attribute vec3 vertex;
+attribute vec2 tex;
 attribute vec3 normal;
 
 uniform mat4 pMatrix;
@@ -9,8 +10,9 @@ uniform vec3 laserDirection;
 uniform float laserFlickering;
 
 varying vec3 color;
+varying highp vec2 varyingTex;
 
-const vec3 lightPosition = vec3(0.0, 30.0, 0.0);
+const vec3 lightPosition = vec3(0.0, 20.0, 0.0);
 
 void main()
 {
@@ -21,8 +23,8 @@ void main()
     float toLightDistance = length(toLight);
     vec3 mvNormal = nMatrix * normal;
     float factor = 0.5 + dot(normalize(toLight), mvNormal) / 2.0;
-    vec3 ambient = 0.2 * vec3(1.0, 1.0, 1.0);
-    vec3 diffuse = 0.8 * factor * vec3(1.0, 1.0, 1.0) / (toLightDistance * toLightDistance) * 600.0;
+    vec3 ambient = 0.0 * vec3(1.0, 1.0, 1.0);
+    vec3 diffuse = factor * vec3(1.0, 1.0, 1.0) * 140.0 / (toLightDistance * toLightDistance);
 
     vec3 laserL = vec3(0.0, 0.0, 0.0);
     float dotP = dot(laserDirection.xz, mvVertex.xz);
@@ -36,4 +38,5 @@ void main()
     }
 
     color = ambient + diffuse + laserL;
+    varyingTex = tex;
 }

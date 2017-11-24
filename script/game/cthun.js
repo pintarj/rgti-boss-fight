@@ -3,7 +3,7 @@
  * Create a Cthun object.
  * */
 function Cthun() {
-    SceneObject.call(this, 'cthun', 'janez');
+    SceneObject.call(this, 'cthun-uv', 'arena-tex', 'cthun-tex');
     this.setPosition([0, 1.3, 0]);
     this.speed = 2 * Math.PI;
     this.orientation = 0;

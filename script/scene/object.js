@@ -4,11 +4,13 @@
  * Create a SceneObject.
  * @param {string} modelName - The name of the model that incarnate this object.
  * @param {string} programName - The name of the program used to draw this object's model.
+ * @param {string} textureName - The name of the texture applied on this object's model.
  * */
-function SceneObject(modelName, programName) {
+function SceneObject(modelName, programName, textureName) {
     this.position = [0, 0, 0];
     this.model = models[modelName];
     this.program = programs[programName];
+    this.texture = textureName === undefined ? undefined : textures[textureName];
 }
 
 /**
@@ -49,13 +51,23 @@ SceneObject.prototype.draw = function () {
         gl.uniformMatrix3fv(this.program.nMatrixUniformLocation, false, nMatrix);
     }
 
+    var stride = (6 + (this.model.hasUVs ? 2 : 0)) * 4;
+
     this.model.bindArrayBuffer();
     gl.enableVertexAttribArray(this.program.vertexAttributeLocation);
-    gl.vertexAttribPointer(this.program.vertexAttributeLocation, 3, gl.FLOAT, false, 6 * 4, 0);
+    gl.vertexAttribPointer(this.program.vertexAttributeLocation, 3, gl.FLOAT, false, stride, 0);
+
+    if (this.program.texAttributeLocation) {
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, this.texture);
+        gl.uniform1i(this.program.textureUniformLocation, 0);
+        gl.enableVertexAttribArray(this.program.texAttributeLocation);
+        gl.vertexAttribPointer(this.program.texAttributeLocation, 3, gl.FLOAT, false, stride, 3 * 4);
+    }
 
     if (this.program.normalAttributeLocation) {
         gl.enableVertexAttribArray(this.program.normalAttributeLocation);
-        gl.vertexAttribPointer(this.program.normalAttributeLocation, 3, gl.FLOAT, false, 6 * 4, 3 * 4);
+        gl.vertexAttribPointer(this.program.normalAttributeLocation, 3, gl.FLOAT, false, stride, stride - 3 * 4);
     }
 
     this.model.bindElementArrayBuffer();

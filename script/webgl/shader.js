@@ -63,7 +63,9 @@ var shadersNames = [
     "janez.fragment",
     "janez.vertex",
     'laser.vertex',
-    'laser.fragment'
+    'laser.fragment',
+    'arena-tex.vertex',
+    'arena-tex.fragment'
 ];
 
 /**
@@ -108,6 +110,24 @@ var programsStructures = [
             'nMatrix',
             'laserDirection',
             'laserFlickering'
+        ]
+    },
+    {
+        name: 'arena-tex',
+        vertexShader: 'arena-tex.vertex',
+        fragmentShader: 'arena-tex.fragment',
+        attributes: [
+            'vertex',
+            'tex',
+            'normal'
+        ],
+        uniforms: [
+            'mvMatrix',
+            'pMatrix',
+            'nMatrix',
+            'laserDirection',
+            'laserFlickering',
+            'texture'
         ]
     },
     {

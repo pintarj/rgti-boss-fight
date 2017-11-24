@@ -8,6 +8,7 @@ function Model(source) {
     var lines = source.split(/\r?\n/);
     var vertices = [];
     var normals = [];
+    var tex = [];
     var virtualFaces = [];
     var elements = [];
 
@@ -50,10 +51,14 @@ function Model(source) {
                 break;
             }
 
+            case "vt": {
+                var t = Number(atoms[1]);
+                var s = Number(atoms[2]);
+                tex.push([t, s]);
+                break;
+            }
+
             case "f": {
-                //var a = parseFace(atoms[1].split(/\//));
-                //var b = parseFace(atoms[2].split(/\//));
-                //var c = parseFace(atoms[3].split(/\//));
                 var a = virtualFace(atoms[1]);
                 var b = virtualFace(atoms[2]);
                 var c = virtualFace(atoms[3]);
@@ -68,9 +73,12 @@ function Model(source) {
     elements.forEach(function (element) {
         var parsed = parseFace(element.split(/\//));
         var vertex_index = parsed[0];
-        // var texture_index = parsed[1];
+        var texture_index = parsed[1];
         var normal_index = parsed[2];
         arrayBufferData.push.apply(arrayBufferData, vertices[vertex_index]);
+
+        if (texture_index !== undefined)
+            arrayBufferData.push.apply(arrayBufferData, tex[texture_index]);
 
         if (normal_index !== undefined)
             arrayBufferData.push.apply(arrayBufferData, normals[normal_index]);
@@ -93,6 +101,8 @@ function Model(source) {
     this.arrayBuffer = arrayBuffer;
     this.elementArrayBuffer = elementArrayBuffer;
     this.elementsCount = elementArrayBufferData.length;
+    this.hasUVs = tex.length > 0;
+    this.hasNormals = normals.length > 0;
 }
 
 /**
@@ -117,7 +127,7 @@ Model.prototype.bindElementArrayBuffer = function () {
  * */
 var modelsNames = [
     'cube',
-    'cthun',
+    'cthun-uv',
     'pillar',
     'hero',
     'laser',
