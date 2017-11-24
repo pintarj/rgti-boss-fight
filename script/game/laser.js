@@ -4,7 +4,7 @@
  * */
 function Laser() {
     SceneObject.call(this, 'laser', 'laser');
-    this.setPosition([0, 3, 0]);
+    this.setPosition([0, 4, 0]);
     this.orientation = 0;
     this.length = 100;
     this.flickering = 0;
