@@ -29,6 +29,7 @@ Cthun.prototype.constructor = Cthun;
 Cthun.prototype.calculateViewMatrix = function () {
     var matrix = SceneObject.prototype.calculateViewMatrix.call(this);
     mat4.rotateY(matrix, matrix, -this.orientation);
+    mat4.rotateX(matrix, matrix, -0.13);
     return matrix;
 };
 
