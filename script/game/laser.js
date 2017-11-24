@@ -3,7 +3,7 @@
  * Create a Laser object.
  * */
 function Laser() {
-    SceneObject.call(this, 'laser', 'janez');
+    SceneObject.call(this, 'laser', 'laser');
     this.setPosition([0, 2, 0]);
     this.orientation = 0;
     this.length = 100;

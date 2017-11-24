@@ -55,11 +55,14 @@ GameScene.prototype.updateCamera = function () {
     var y = 3;
     var z = this.hero.position[2] + 5 * Math.cos(this.hero.orientation);
     this.camera.setPosition([x, y, z]);
+    var pMatrix = this.camera.calculatePVMatrix();
 
-    // update program pMatrix
-    var program = programs['janez'];
-    gl.useProgram(program);
-    gl.uniformMatrix4fv(program.pMatrixUniformLocation, false, this.camera.calculatePVMatrix());
+    // update programs pMatrix
+    ['janez', 'laser'].forEach(function (name) {
+        var program = programs[name];
+        gl.useProgram(program);
+        gl.uniformMatrix4fv(program.pMatrixUniformLocation, false, pMatrix);
+    });
 };
 
 /**

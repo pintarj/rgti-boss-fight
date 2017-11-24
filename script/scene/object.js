@@ -39,19 +39,24 @@ SceneObject.prototype.draw = function () {
     gl.useProgram(this.program);
 
     var mvMatrix = this.calculateViewMatrix();
-    var nMatrix = mat3.create();
-    mat3.fromMat4(nMatrix, mvMatrix);
-    mat3.invert(nMatrix, nMatrix);
-    mat3.transpose(nMatrix, nMatrix);
     gl.uniformMatrix4fv(this.program.mvMatrixUniformLocation, false, mvMatrix);
-    gl.uniformMatrix3fv(this.program.nMatrixUniformLocation, false, nMatrix);
+
+    if (this.program.nMatrixUniformLocation) {
+        var nMatrix = mat3.create();
+        mat3.fromMat4(nMatrix, mvMatrix);
+        mat3.invert(nMatrix, nMatrix);
+        mat3.transpose(nMatrix, nMatrix);
+        gl.uniformMatrix3fv(this.program.nMatrixUniformLocation, false, nMatrix);
+    }
 
     this.model.bindArrayBuffer();
     gl.enableVertexAttribArray(this.program.vertexAttributeLocation);
     gl.vertexAttribPointer(this.program.vertexAttributeLocation, 3, gl.FLOAT, false, 6 * 4, 0);
 
-    gl.enableVertexAttribArray(this.program.normalAttributeLocation);
-    gl.vertexAttribPointer(this.program.normalAttributeLocation, 3, gl.FLOAT, false, 6 * 4, 3 * 4);
+    if (this.program.normalAttributeLocation) {
+        gl.enableVertexAttribArray(this.program.normalAttributeLocation);
+        gl.vertexAttribPointer(this.program.normalAttributeLocation, 3, gl.FLOAT, false, 6 * 4, 3 * 4);
+    }
 
     this.model.bindElementArrayBuffer();
     gl.drawElements(gl.TRIANGLES, this.model.elementsCount, gl.UNSIGNED_SHORT, null);

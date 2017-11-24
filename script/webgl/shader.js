@@ -61,7 +61,9 @@ function createProgram(shaders, attributes_bind_locations) {
  * */
 var shadersNames = [
     "janez.fragment",
-    "janez.vertex"
+    "janez.vertex",
+    'laser.vertex',
+    'laser.fragment'
 ];
 
 /**
@@ -106,6 +108,18 @@ var programsStructures = [
             'nMatrix',
             'laserDirection',
             'laserFlickering'
+        ]
+    },
+    {
+        name: 'laser',
+        vertexShader: 'laser.vertex',
+        fragmentShader: 'laser.fragment',
+        attributes: [
+            'vertex'
+        ],
+        uniforms: [
+            'pMatrix',
+            'mvMatrix'
         ]
     }
 ];
