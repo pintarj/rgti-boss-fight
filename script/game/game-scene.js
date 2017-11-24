@@ -71,8 +71,7 @@ GameScene.prototype.updateCamera = function () {
  * @param {number} delta - The amount of time to update (units in seconds).
  * @return {undefined}
  * */
-GameScene.prototype.update = function (delta) {
-
+GameScene.prototype.update = function (delta) {    
     // update the hero position
     if (this.wasd[0] || this.wasd[1] || this.wasd[2] || this.wasd[3]) {
         var heroMoveVector = vec2.create();
@@ -91,7 +90,23 @@ GameScene.prototype.update = function (delta) {
         z -= delta * this.hero.speed * Math.cos(this.hero.orientation) * heroMoveVector[1];
         x += delta * this.hero.speed * Math.cos(this.hero.orientation) * heroMoveVector[0];
         z += delta * this.hero.speed * Math.sin(this.hero.orientation) * heroMoveVector[0];
-        this.hero.setPosition([x, 0, z]);
+        
+
+
+        var okToMove = true;
+        for (var i = 0; i < this.columns.length; ++i) {
+            var a = this.columns[i].position[0] -  x;
+            var b = this.columns[i].position[2] -  z;
+            var c = Math.sqrt(a*a + b*b);
+
+            if(c < 2){
+                okToMove = false;
+            }                               
+        }
+        if(okToMove){
+            this.hero.setPosition([x, 0, z]);
+        }
+
     }
 
     this.updateCamera();
@@ -123,7 +138,7 @@ GameScene.prototype.update = function (delta) {
             break;
         }
     }
-    
+    /*console.log(aJePillarHit);
 
     /*var tmpDist = 30;
     var tmpKot = 2.93;
