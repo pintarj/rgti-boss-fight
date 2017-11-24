@@ -39,6 +39,26 @@
                 top:            0;
                 left:           0;
             }
+            #victory_message {
+                width:          100%;
+                position:       absolute;
+                color:          white;
+                font-size:      80px;
+                text-align:     center;
+                top:            0;
+                left:           0;
+                display:        none;
+            }
+            #cthun_message {
+                width:          100%;
+                position:       absolute;
+                color:          white;
+                font-size:      80px;
+                text-align:     center;
+                top:            0;
+                left:           0;
+                display:        none;
+            }
             #the_menu {
                 width:              100%;
                 position:           absolute;
@@ -74,6 +94,8 @@
     </head>
     <body onload="boot()">
         <div id="loading_message">Loading...</div>
+        <div id="victory_message">Victory!</div>
+        <div id="cthun_message">C'Thun dominates.</div>
         <div id="the_menu">
             <button onclick="launchGame()">Play</button>
         </div>

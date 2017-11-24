@@ -32,6 +32,12 @@ SceneObject.prototype.calculateViewMatrix = function () {
     return matrix;
 };
 
+SceneObject.prototype.distance2DFrom = function(object) {
+    var x = this.position[0] - object.position[0];
+    var z = this.position[2] - object.position[2];
+    return Math.sqrt(x * x + z * z);
+};
+
 /**
  * Draws the object.
  * @return {undefined}

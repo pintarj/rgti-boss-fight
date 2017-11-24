@@ -108,6 +108,9 @@ function on_resize() {
 
     var the_menu = document.getElementById('the_menu');
     the_menu.style.top = Math.ceil((h - the_menu.style.height) / 2) + 'px';
+
+    var victory_message = document.getElementById('victory_message');
+    victory_message.style.top = Math.ceil((h - victory_message.style.height) / 2) + 'px';
 }
 
 /**
