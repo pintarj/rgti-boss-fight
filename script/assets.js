@@ -18,6 +18,7 @@ function loadAsset(name, successCallback, errorCallback) {
 
     var request = new XMLHttpRequest();
     request.open('GET', './asset/' + name);
+    request.overrideMimeType('text/plain');
     request.onreadystatechange = function () {
         if (request.readyState === 4) {
             if (request.status === 200) {
