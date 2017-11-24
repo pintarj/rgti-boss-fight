@@ -9,6 +9,8 @@
 function MenuScene() {
     Scene.call(this, 'menu-scene');
     document.getElementById('the_menu').style.display = 'block';
+    document.getElementById('victory_message').style.display = 'none';
+    document.getElementById('cthun_message').style.display = 'none';
 }
 
 /**

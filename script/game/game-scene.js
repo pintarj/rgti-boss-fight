@@ -3,10 +3,6 @@
  */
 "use strict";
 
-
-//Global variable of starting time
-var startTime;
-
 /**
  * Create a GameScene object.
  * */
@@ -15,11 +11,11 @@ function GameScene() {
     this.cthun = new Cthun();
     this.hero = new Hero();
     this.arena = new SceneObject('arena', 'janez');
+    this.gameFinished = false;
 
     // columns generation
     this.columns = [];
     var columnsNumber = 10;
-
 
     this.columns.push(new Column(10, 0 * 480 / columnsNumber));
     this.columns.push(new Column(14, (1/2) * 480 / columnsNumber));
@@ -33,8 +29,8 @@ function GameScene() {
     // array that tells which key is pressed
     this.wasd = [false, false, false, false];
 
-
-    startTime = new Date();
+    // Global variable of starting time.
+    this.startTime = new Date();
 }
 
 /**
@@ -72,7 +68,10 @@ GameScene.prototype.updateCamera = function () {
  * @return {undefined}
  * */
 GameScene.prototype.update = function (delta) {
-    var winCondition = false;    
+
+    if (this.gameFinished)
+        return;
+
     // update the hero position
     if (this.wasd[0] || this.wasd[1] || this.wasd[2] || this.wasd[3]) {
         var heroMoveVector = vec2.create();
@@ -91,68 +90,53 @@ GameScene.prototype.update = function (delta) {
         z -= delta * this.hero.speed * Math.cos(this.hero.orientation) * heroMoveVector[1];
         x += delta * this.hero.speed * Math.cos(this.hero.orientation) * heroMoveVector[0];
         z += delta * this.hero.speed * Math.sin(this.hero.orientation) * heroMoveVector[0];
-        
 
+        var oldPosition = this.hero.position;
+        this.hero.setPosition([x, 0, z]);
 
-        var okToMovePillar = true;
+        // check win condition
+        if (this.hero.distance <= 4) {
+            this.gameFinished = true;
+            gameFinished(true);
+            return;
+        }
+
+        if (this.hero.distance > 62)
+            this.hero.setPosition(oldPosition);
+
         for (var i = 0; i < this.columns.length; ++i) {
-            var a = this.columns[i].position[0] -  x;
-            var b = this.columns[i].position[2] -  z;
-            var c = Math.sqrt(a*a + b*b);
-
-            if(c < 2){
-                okToMovePillar = false;
+            if (this.hero.distance2DFrom(this.columns[i]) < 2) {
+                this.hero.setPosition(oldPosition);
+                break;
             }                               
         }
-        var okToMoveRoom = true;
-        var c = Math.sqrt(x*x + z*z);
-        if(c > 62){
-            okToMoveRoom = false;
-        }
-        if(c < 4){
-            winCondition = true;
-        }
-
-        if(okToMoveRoom && okToMovePillar){
-            this.hero.setPosition([x, 0, z]);
-        }
-
     }
+
     this.updateCamera();
 
-    //win condition
-    if(winCondition){
-        
-    }
-
     // update Cthun and its laser
-    var currentTime = new Date();
-    var difTime = currentTime - startTime;
+    var difTime = new Date() - this.startTime;
     var speedModify = 0;
-    if(difTime/1000 > 60 ){
+
+    if(difTime/1000 > 60 )
     	speedModify = 3;
-    }
-    else {
+    else
     	speedModify = 12 - difTime * (10/60000);
-    }
+
     var orientation = this.cthun.orientation + delta * (this.cthun.speed / speedModify);
     orientation = (orientation >= 2 * Math.PI) ? (orientation - 2 * Math.PI) : orientation;
     this.cthun.orientation = orientation;
     this.cthun.laser.orientation = orientation;
     this.cthun.laser.length = 100;
 
-    
-    var aJePillarHit = false;
     var hitting = undefined;
     for (var i = 0; i < this.columns.length; ++i) {
         if (this.columns[i].isOnAngle(orientation)) {
             hitting = this.columns[i];
             this.cthun.laser.length = hitting.distance;
-            aJePillarHit = true;
             break;
         }
     }
-    
 
     this.cthun.laser.flickering = 0.5 * (Math.random() - 0.5);
     var laserDirection = vec3.create();
@@ -191,7 +175,7 @@ GameScene.prototype.draw = function () {
  * @param {KeyboardEvent} event - The keyDown event.
  * */
 GameScene.prototype.onKeyDown = function (event) {
-    switch (event.key) {
+    switch (event.key.toLowerCase()) {
         case 'w':
             this.wasd[0] = true;
             break;
@@ -212,7 +196,7 @@ GameScene.prototype.onKeyDown = function (event) {
  * @param {KeyboardEvent} event - The keyUp event.
  * */
 GameScene.prototype.onKeyUp = function (event) {
-    switch (event.key) {
+    switch (event.key.toLowerCase()) {
         case 'w':
             this.wasd[0] = false;
             break;
@@ -233,5 +217,19 @@ GameScene.prototype.onKeyUp = function (event) {
  * @param {MouseEvent} event - The onMove event.
  * */
 GameScene.prototype.onMouseMove = function (event) {
+    if (this.gameFinished)
+        return;
+
     this.hero.orientation += event.movementX / 200;
 };
+
+/**
+ * Called when the game is finished. The it returns to the menu.
+ * @param {boolean} victory - True if the game was won, false otherwise.
+ * */
+function gameFinished(victory) {
+    document.getElementById(victory ? 'victory_message' : 'cthun_message').style.display = 'block';
+    setTimeout(function () {
+        current_scene.setNextScene(new MenuScene());
+    }, 4000);
+}
