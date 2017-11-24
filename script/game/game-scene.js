@@ -13,7 +13,8 @@ const timeDivider = 200; // the smaller the divider, the shorter the steps
 var laserSoundEffect = new Audio("asset/laserSoundEffect.mp3");
 //background
 var backgroundMusic = new Audio("asset/glasba2.mp3");
-//backgroundMusic.play();
+//death message
+var tauntSound = new Audio("asset/taunt.mp3");
 
 //Global variable of starting time
 var startTime;
@@ -310,6 +311,11 @@ function gameFinished(victory) {
     current_scene.wasd = [false, false, false, false];
     current_scene.gameFinished = true;
     document.getElementById(victory ? 'victory_message' : 'cthun_message').style.display = 'block';
+    laserSoundEffect.volume = 0.2;
+    if(!victory) {
+        backgroundMusic.volume = 0.2;
+        tauntSound.play();
+    }
     setTimeout(function () {
         current_scene.setNextScene(new MenuScene());
         backgroundMusic.pause();
