@@ -163,6 +163,10 @@ GameScene.prototype.update = function (delta) {
     gl.useProgram(program);
     gl.uniform3fv(program.laserDirectionUniformLocation, laserDirection);
     gl.uniform1f(program.laserFlickeringUniformLocation, this.cthun.laser.flickering);
+    program = programs['arena-tex'];
+    gl.useProgram(program);
+    gl.uniform3fv(program.laserDirectionUniformLocation, laserDirection);
+    gl.uniform1f(program.laserFlickeringUniformLocation, this.cthun.laser.flickering);
 };
 
 /**
