@@ -71,7 +71,8 @@ GameScene.prototype.updateCamera = function () {
  * @param {number} delta - The amount of time to update (units in seconds).
  * @return {undefined}
  * */
-GameScene.prototype.update = function (delta) {    
+GameScene.prototype.update = function (delta) {
+    var winCondition = false;    
     // update the hero position
     if (this.wasd[0] || this.wasd[1] || this.wasd[2] || this.wasd[3]) {
         var heroMoveVector = vec2.create();
@@ -93,23 +94,36 @@ GameScene.prototype.update = function (delta) {
         
 
 
-        var okToMove = true;
+        var okToMovePillar = true;
         for (var i = 0; i < this.columns.length; ++i) {
             var a = this.columns[i].position[0] -  x;
             var b = this.columns[i].position[2] -  z;
             var c = Math.sqrt(a*a + b*b);
 
             if(c < 2){
-                okToMove = false;
+                okToMovePillar = false;
             }                               
         }
-        if(okToMove){
+        var okToMoveRoom = true;
+        var c = Math.sqrt(x*x + z*z);
+        if(c > 62){
+            okToMoveRoom = false;
+        }
+        if(c < 4){
+            winCondition = true;
+        }
+
+        if(okToMoveRoom && okToMovePillar){
             this.hero.setPosition([x, 0, z]);
         }
 
     }
-
     this.updateCamera();
+
+    //win condition
+    if(winCondition){
+        console.log("WINNING!");
+    }
 
     // update Cthun and its laser
     var currentTime = new Date();
@@ -138,25 +152,7 @@ GameScene.prototype.update = function (delta) {
             break;
         }
     }
-    /*console.log(aJePillarHit);
-
-    /*var tmpDist = 30;
-    var tmpKot = 2.93;
     
-    //interval
-    if(tmpKot < this.cthun.orientation + 0.01  && tmpKot > this.cthun.orientation - 0.01) {
-        if(aJePillarHit) {
-            if(hitting.distance > tmpDist) {
-                throw new Error("Death! too close");
-            }
-        }
-        else {
-            
-            console.log(aJePillarHit);
-            console.log(tmpKot + " " + this.cthun.orientation);
-            throw new Error("Death! no pillar");           
-        }
-    }*/
 
     this.cthun.laser.flickering = 0.5 * (Math.random() - 0.5);
     var laserDirection = vec3.create();
