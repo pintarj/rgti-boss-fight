@@ -179,7 +179,7 @@ GameScene.prototype.update = function (delta) {
      (Math.cos(difTime/timeDivider) < smallNum2 && Math.cos(difTime/timeDivider) > smallNum1)) {
         //console.log(Math.cos(difTime/200));
         footstepSoundEffect.play();
-        console.log(footstepSoundEffect.play());
+        console.log(orientation);
     }
 
     /*var tmpDist = 30;
@@ -195,6 +195,7 @@ GameScene.prototype.update = function (delta) {
     gl.useProgram(program);
     gl.uniform3fv(program.laserDirectionUniformLocation, laserDirection);
     gl.uniform1f(program.laserFlickeringUniformLocation, this.cthun.laser.flickering);
+    */
 };
 
 /**
