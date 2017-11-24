@@ -3,6 +3,23 @@
  */
 "use strict";
 
+//Audio context
+//footsteps
+var footstepSoundEffect = new Audio("asset/footStepSoundEffect.mp3");
+const smallNum1 = 0.0;
+const smallNum2 = 0.085;
+const timeDivider = 200; // the smaller the divider, the shorter the steps
+//laser
+var laserSoundEffect = new Audio("asset/laserSoundEffect.mp3");
+laserSoundEffect.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+laserSoundEffect.play();
+//background
+var backgroundMusic = new Audio("asset/glasba2.mp3");
+backgroundMusic.play();
+
 /**
  * Create a GameScene object.
  * */
@@ -136,6 +153,14 @@ GameScene.prototype.update = function (delta) {
             this.cthun.laser.length = hitting.distance;
             break;
         }
+    }
+
+    //checking if it is time to play the footstep sound
+    if((this.wasd[0] || this.wasd[1] || this.wasd[2] || this.wasd[3]) &&
+     (Math.cos(difTime/timeDivider) < smallNum2 && Math.cos(difTime/timeDivider) > smallNum1)) {
+        //console.log(Math.cos(difTime/200));
+        footstepSoundEffect.play();
+        console.log(footstepSoundEffect.play());
     }
 
     this.cthun.laser.flickering = 0.5 * (Math.random() - 0.5);
