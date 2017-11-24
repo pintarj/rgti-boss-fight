@@ -180,7 +180,7 @@ GameScene.prototype.update = function (delta) {
     //checking if it is time to play the footstep sound
     if((this.wasd[0] || this.wasd[1] || this.wasd[2] || this.wasd[3]) &&
      (Math.cos(difTime/timeDivider) < smallNum2 && Math.cos(difTime/timeDivider) > smallNum1)) {
-        footstepSoundEffect.play();        
+        footstepSoundEffect.play();
     }
 
     
@@ -188,11 +188,25 @@ GameScene.prototype.update = function (delta) {
     var heroVec = vec3.create();
     vec3.subtract(heroVec, this.hero.position, this.cthun.laser.position);
     var laserVec = vec3.fromValues(Math.cos(orientation-3.14), 0, Math.sin(orientation-3.14));
-    if(vec3.angle(heroVec,laserVec) > 3.0 && vec3.angle(heroVec,laserVec) < 3.1 && laserSoundEffect.paused) {
+    if(vec3.angle(heroVec,laserVec) > 2.8 && vec3.angle(heroVec,laserVec) < 3.1 && laserSoundEffect.paused) {
+        laserSoundEffect.volume = 1;
         laserSoundEffect.play();
-    } else if (vec3.angle(heroVec,laserVec) > 0.5 && vec3.angle(heroVec,laserVec) < 0.6 && !laserSoundEffect.paused) {
-        laserSoundEffect.pause();
-        laserSoundEffect.currentTime = 0;
+    } else if (vec3.angle(heroVec,laserVec) > 0.9 && vec3.angle(heroVec,laserVec) < 1.3 && !laserSoundEffect.paused) {
+        var interval = setInterval(function () {
+            var newVolume = laserSoundEffect.volume - 0.1;
+
+            // Check if the newVolume is greater than zero
+            if(newVolume >= 0.01){
+                laserSoundEffect.volume = newVolume;
+            }
+            else{
+                // Stop fade
+                clearInterval(interval);
+                laserSoundEffect.volume = 0;
+                laserSoundEffect.pause();
+                laserSoundEffect.currentTIme = 0;
+            }
+        }, 300);
     }
 
 
@@ -289,6 +303,31 @@ GameScene.prototype.onMouseMove = function (event) {
 
     this.hero.orientation += event.movementX / 200;
 };
+
+/**
+ * Stop audio playback with fade out effect
+ * @param {Audio} sound
+ * */
+function fadeOut(sound) {
+    var interval = setInterval(function (sound) {
+
+        var newVolume = sound.volume - 0.1;
+
+        // Check if the newVolume is greater than zero
+        if(newVolume >= 0){
+            sound.volume = newVolume;
+        }
+        else{
+            // Stop fade
+            clearInterval(interval);
+            sound.volume = 0;
+            sound.pause();
+            sound.currentTIme = 0;
+        }
+
+    }, 200);
+}
+
 
 /**
  * Called when the game is finished. The it returns to the menu.
