@@ -11,14 +11,9 @@ const smallNum2 = 0.085;
 const timeDivider = 200; // the smaller the divider, the shorter the steps
 //laser
 var laserSoundEffect = new Audio("asset/laserSoundEffect.mp3");
-/*laserSoundEffect.addEventListener('ended', function() {
-    this.currentTime = 0;
-    this.play();
-}, false);*/
-//laserSoundEffect.play();
 //background
 var backgroundMusic = new Audio("asset/glasba2.mp3");
-backgroundMusic.play();
+//backgroundMusic.play();
 
 //Global variable of starting time
 var startTime;
@@ -53,6 +48,9 @@ function GameScene() {
 
     // Global variable of starting time.
     this.startTime = new Date();
+
+    // Play the music
+    backgroundMusic.play();
 }
 
 /**
@@ -204,7 +202,7 @@ GameScene.prototype.update = function (delta) {
                 clearInterval(interval);
                 laserSoundEffect.volume = 0;
                 laserSoundEffect.pause();
-                laserSoundEffect.currentTIme = 0;
+                laserSoundEffect.currentTime = 0;
             }
         }, 300);
     }
@@ -314,5 +312,7 @@ function gameFinished(victory) {
     document.getElementById(victory ? 'victory_message' : 'cthun_message').style.display = 'block';
     setTimeout(function () {
         current_scene.setNextScene(new MenuScene());
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0;
     }, 4000);
 }
