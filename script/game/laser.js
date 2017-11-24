@@ -28,7 +28,16 @@ Laser.prototype.calculateViewMatrix = function () {
     var matrix = SceneObject.prototype.calculateViewMatrix.call(this);
     mat4.rotateY(matrix, matrix, -this.orientation);
     mat4.rotateX(matrix, matrix, -0.03);
-    var randomScale = 1 + this.flickering;
-    mat4.scale(matrix, matrix, [randomScale, randomScale, this.length]);
+    var randomScale = 1 + this.flickering / 2.0;
+    mat4.scale(matrix, matrix, [randomScale, 2.2 * randomScale, this.length]);
     return matrix;
+};
+
+Laser.prototype.draw = function () {
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+    gl.enable(gl.BLEND);
+    gl.disable(gl.DEPTH_TEST);
+    SceneObject.prototype.draw.call(this);
+    gl.disable(gl.BLEND);
+    gl.enable(gl.DEPTH_TEST);
 };
