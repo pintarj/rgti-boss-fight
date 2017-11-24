@@ -319,9 +319,24 @@ function gameFinished(victory) {
     current_scene.wasd = [false, false, false, false];
     current_scene.gameFinished = true;
     document.getElementById(victory ? 'victory_message' : 'cthun_message').style.display = 'block';
-    laserSoundEffect.volume = 0.2;
+    //laserSoundEffect.volume = 0.2;
     if(!victory) {
-        backgroundMusic.volume = 0.2;
+        var interval = setInterval(function () {
+            var newVolume = laserSoundEffect.volume - 0.1;
+
+            // Check if the newVolume is greater than zero
+            if(newVolume >= 0.01){
+                laserSoundEffect.volume = newVolume;
+                backgroundMusic.volume = newVolume;
+            }
+            else{
+                // Stop fade
+                clearInterval(interval);
+                laserSoundEffect.volume = 0;
+                laserSoundEffect.pause();
+                laserSoundEffect.currentTime = 0;
+            }
+        }, 100);
         tauntSound.play();
     }
     setTimeout(function () {
