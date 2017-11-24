@@ -111,6 +111,9 @@ function on_resize() {
 
     var victory_message = document.getElementById('victory_message');
     victory_message.style.top = Math.ceil((h - victory_message.style.height) / 2) + 'px';
+
+    var cthun_message = document.getElementById('cthun_message');
+    cthun_message.style.top = Math.ceil((h - cthun_message.style.height) / 2) + 'px';
 }
 
 /**

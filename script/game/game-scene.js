@@ -113,7 +113,6 @@ GameScene.prototype.update = function (delta) {
 
         // check win condition
         if (this.hero.distance <= 4) {
-            this.gameFinished = true;
             gameFinished(true);
             return;
         }
@@ -142,6 +141,24 @@ GameScene.prototype.update = function (delta) {
 
     var orientation = this.cthun.orientation + delta * (this.cthun.speed / speedModify);
     orientation = (orientation >= 2 * Math.PI) ? (orientation - 2 * Math.PI) : orientation;
+
+    if (this.hero.isOnAngle(orientation)) {
+        var saved = false;
+
+        for (var i = 0; i < this.columns.length; ++i) {
+            var heroBehind = this.columns[i].distance < this.hero.distance;
+            if (this.columns[i].isOnAngle(this.hero.angle) && heroBehind) {
+                saved = true;
+                break;
+            }
+        }
+
+        if (!saved) {
+            gameFinished(false);
+            return;
+        }
+    }
+
     this.cthun.orientation = orientation;
     this.cthun.laser.orientation = orientation;
     this.cthun.laser.length = 100;
@@ -160,7 +177,8 @@ GameScene.prototype.update = function (delta) {
      (Math.cos(difTime/timeDivider) < smallNum2 && Math.cos(difTime/timeDivider) > smallNum1)) {
         //console.log(Math.cos(difTime/200));
         footstepSoundEffect.play();
-        console.log(footstepSoundEffect.play());
+        // Je potrebno 2x?
+        //console.log(footstepSoundEffect.play());
     }
 
     this.cthun.laser.flickering = 0.5 * (Math.random() - 0.5);
@@ -200,6 +218,9 @@ GameScene.prototype.draw = function () {
  * @param {KeyboardEvent} event - The keyDown event.
  * */
 GameScene.prototype.onKeyDown = function (event) {
+    if (this.gameFinished)
+        return;
+
     switch (event.key.toLowerCase()) {
         case 'w':
             this.wasd[0] = true;
@@ -221,6 +242,9 @@ GameScene.prototype.onKeyDown = function (event) {
  * @param {KeyboardEvent} event - The keyUp event.
  * */
 GameScene.prototype.onKeyUp = function (event) {
+    if (this.gameFinished)
+        return;
+
     switch (event.key.toLowerCase()) {
         case 'w':
             this.wasd[0] = false;
@@ -253,6 +277,8 @@ GameScene.prototype.onMouseMove = function (event) {
  * @param {boolean} victory - True if the game was won, false otherwise.
  * */
 function gameFinished(victory) {
+    current_scene.wasd = [false, false, false, false];
+    current_scene.gameFinished = true;
     document.getElementById(victory ? 'victory_message' : 'cthun_message').style.display = 'block';
     setTimeout(function () {
         current_scene.setNextScene(new MenuScene());

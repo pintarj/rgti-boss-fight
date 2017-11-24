@@ -43,3 +43,16 @@ Hero.prototype.setPosition = function (position) {
     this.distance = vec3.length([x, 0, z]);
     this.angle = (Math.PI + Math.atan2(-x, z)) % (2 * Math.PI);
 };
+
+
+/**
+ * Tells if the hero is on a specified angle.
+ * @param {number} angle - The angle to test.
+ * @return {boolean} true if the hero is on angle, false otherwise
+ */
+Hero.prototype.isOnAngle = function(angle) {
+    var offsetAngle = Math.atan2(0.5, this.distance);
+    var startAngle = this.angle - offsetAngle;
+    var stopAngle = this.angle + offsetAngle;
+    return angle >= startAngle && angle <= stopAngle;
+};
