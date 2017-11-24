@@ -104,7 +104,8 @@ var programsStructures = [
             'mvMatrix',
             'pMatrix',
             'nMatrix',
-            'laserDirection'
+            'laserDirection',
+            'laserFlickering'
         ]
     }
 ];

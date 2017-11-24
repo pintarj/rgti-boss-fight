@@ -6,6 +6,7 @@ uniform mat4 pMatrix;
 uniform mat4 mvMatrix;
 uniform mat3 nMatrix;
 uniform vec3 laserDirection;
+uniform float laserFlickering;
 
 varying vec3 color;
 
@@ -31,7 +32,7 @@ void main()
         vec3 distanceVector = (dotP * laserDirection + vec3(0.0, 2.0, 0.0)) - mvVertex.xyz;
         float distance = length(distanceVector);
         float channel = min(1.0, max(0.0, dot(distanceVector, mvNormal)));
-        laserL.x = 5.0 * channel / (distance * distance);
+        laserL.x = (laserFlickering + 0.5) * 10.0 * channel / (distance * distance);
     }
 
     color = ambient + diffuse + laserL;

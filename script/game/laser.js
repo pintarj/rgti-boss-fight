@@ -4,9 +4,10 @@
  * */
 function Laser() {
     SceneObject.call(this, 'laser', 'janez');
-    this.setPosition([0, 0, 0]); // not considered in "calculateViewMatrix"
+    this.setPosition([0, 2, 0]);
     this.orientation = 0;
     this.length = 100;
+    this.flickering = 0;
 }
 
 /**
@@ -24,9 +25,9 @@ Laser.prototype.constructor = Laser;
  * @return {mat4}
  * */
 Laser.prototype.calculateViewMatrix = function () {
-    var matrix = mat4.create();
+    var matrix = SceneObject.prototype.calculateViewMatrix.call(this);
     mat4.rotateY(matrix, matrix, -this.orientation);
-    var randomScale = 1;
+    var randomScale = 1 + this.flickering;
     mat4.scale(matrix, matrix, [randomScale, randomScale, this.length]);
     return matrix;
 };

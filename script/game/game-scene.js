@@ -105,7 +105,7 @@ GameScene.prototype.update = function (delta) {
     var orientation = this.cthun.orientation + delta * (this.cthun.speed / speedModify);
     this.cthun.orientation = orientation;
     this.cthun.laser.orientation = orientation;
-
+    this.cthun.laser.flickering = 0.5 * (Math.random() - 0.5);
     var laserDirection = vec3.create();
     laserDirection[0] = Math.sin(orientation);
     laserDirection[2] = -Math.cos(orientation);
@@ -113,6 +113,7 @@ GameScene.prototype.update = function (delta) {
     var program = programs['janez'];
     gl.useProgram(program);
     gl.uniform3fv(program.laserDirectionUniformLocation, laserDirection);
+    gl.uniform1f(program.laserFlickeringUniformLocation, this.cthun.laser.flickering);
 };
 
 /**
