@@ -43,7 +43,7 @@ SceneCamera.prototype.calculatePVMatrix = function () {
     var viewMatrix = mat4.create();
     var PVMatrix = mat4.create();
 
-    mat4.perspective(projectionMatrix, this.fov, the_canvas.width / the_canvas.height, 1.0, 100.0);
+    mat4.perspective(projectionMatrix, this.fov, the_canvas.width / the_canvas.height, 2.0, 150.0);
     mat4.lookAt(viewMatrix, this.position, this.center, [0, 1, 0]);
     mat4.multiply(PVMatrix, projectionMatrix, viewMatrix);
 

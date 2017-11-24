@@ -101,7 +101,10 @@ var programsStructures = [
             'normal'
         ],
         uniforms: [
-            'mvp'
+            'mvMatrix',
+            'pMatrix',
+            'nMatrix',
+            'laserDirection'
         ]
     }
 ];

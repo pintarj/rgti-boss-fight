@@ -14,6 +14,7 @@ function GameScene() {
     Scene.call(this, 'game-scene');
     this.cthun = new Cthun();
     this.hero = new Hero();
+    this.arena = new SceneObject('arena', 'janez');
 
     // columns generation
     this.columns = [];
@@ -54,6 +55,11 @@ GameScene.prototype.updateCamera = function () {
     var y = 3;
     var z = this.hero.position[2] + 5 * Math.cos(this.hero.orientation);
     this.camera.setPosition([x, y, z]);
+
+    // update program pMatrix
+    var program = programs['janez'];
+    gl.useProgram(program);
+    gl.uniformMatrix4fv(program.pMatrixUniformLocation, false, this.camera.calculatePVMatrix());
 };
 
 /**
@@ -99,9 +105,14 @@ GameScene.prototype.update = function (delta) {
     var orientation = this.cthun.orientation + delta * (this.cthun.speed / speedModify);
     this.cthun.orientation = orientation;
     this.cthun.laser.orientation = orientation;
-    
-	
-	
+
+    var laserDirection = vec3.create();
+    laserDirection[0] = Math.sin(orientation);
+    laserDirection[2] = -Math.cos(orientation);
+    vec3.normalize(laserDirection, laserDirection);
+    var program = programs['janez'];
+    gl.useProgram(program);
+    gl.uniform3fv(program.laserDirectionUniformLocation, laserDirection);
 };
 
 /**
@@ -117,6 +128,7 @@ GameScene.prototype.draw = function () {
     });
 
     this.hero.draw();
+    this.arena.draw();
     this.cthun.draw();
 };
 

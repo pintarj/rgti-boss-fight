@@ -38,9 +38,13 @@ SceneObject.prototype.draw = function () {
     gl.enable(gl.DEPTH_TEST);
     gl.useProgram(this.program);
 
-    var mvp = current_scene.camera.calculatePVMatrix();
-    mat4.multiply(mvp, current_scene.camera.calculatePVMatrix(), this.calculateViewMatrix());
-    gl.uniformMatrix4fv(this.program.mvpUniformLocation, false, mvp);
+    var mvMatrix = this.calculateViewMatrix();
+    var nMatrix = mat3.create();
+    mat3.fromMat4(nMatrix, mvMatrix);
+    mat3.invert(nMatrix, nMatrix);
+    mat3.transpose(nMatrix, nMatrix);
+    gl.uniformMatrix4fv(this.program.mvMatrixUniformLocation, false, mvMatrix);
+    gl.uniformMatrix3fv(this.program.nMatrixUniformLocation, false, nMatrix);
 
     this.model.bindArrayBuffer();
     gl.enableVertexAttribArray(this.program.vertexAttributeLocation);

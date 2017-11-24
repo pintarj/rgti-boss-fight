@@ -120,7 +120,9 @@ var modelsNames = [
     'cthun',
     'pillar',
     'hero',
-    'laser'
+    'laser',
+    'cthun-base',
+    'arena'
 ];
 
 /**
