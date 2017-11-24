@@ -28,6 +28,7 @@ function GameScene() {
     this.columns.push(new Column(38, (2.1) * 480 / columnsNumber));
     this.columns.push(new Column(48, (2.5) * 480 / columnsNumber));
     this.columns.push(new Column(50, (3) * 480 / columnsNumber));
+    this.columns.push(new Column(50, (3.5) * 480 / columnsNumber));
 
     // array that tells which key is pressed
     this.wasd = [false, false, false, false];
@@ -103,7 +104,7 @@ GameScene.prototype.update = function (delta) {
     	speedModify = 3;
     }
     else {
-    	speedModify = 15 - difTime * (12/60000);
+    	speedModify = 12 - difTime * (10/60000);
     }
     var orientation = this.cthun.orientation + delta * (this.cthun.speed / speedModify);
     orientation = (orientation >= 2 * Math.PI) ? (orientation - 2 * Math.PI) : orientation;
@@ -111,14 +112,36 @@ GameScene.prototype.update = function (delta) {
     this.cthun.laser.orientation = orientation;
     this.cthun.laser.length = 100;
 
+    
+    var aJePillarHit = false;
     var hitting = undefined;
     for (var i = 0; i < this.columns.length; ++i) {
         if (this.columns[i].isOnAngle(orientation)) {
             hitting = this.columns[i];
             this.cthun.laser.length = hitting.distance;
+            aJePillarHit = true;
             break;
         }
     }
+    
+
+    /*var tmpDist = 30;
+    var tmpKot = 2.93;
+    
+    //interval
+    if(tmpKot < this.cthun.orientation + 0.01  && tmpKot > this.cthun.orientation - 0.01) {
+        if(aJePillarHit) {
+            if(hitting.distance > tmpDist) {
+                throw new Error("Death! too close");
+            }
+        }
+        else {
+            
+            console.log(aJePillarHit);
+            console.log(tmpKot + " " + this.cthun.orientation);
+            throw new Error("Death! no pillar");           
+        }
+    }*/
 
     this.cthun.laser.flickering = 0.5 * (Math.random() - 0.5);
     var laserDirection = vec3.create();

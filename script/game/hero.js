@@ -4,7 +4,7 @@
  * */
 function Hero() {
     SceneObject.call(this, 'hero', 'janez');
-    this.setPosition([35, 0, 35]);
+    this.setPosition([5, 0, 55]);
     this.speed = 5;
     this.orientation = 0;
 }
