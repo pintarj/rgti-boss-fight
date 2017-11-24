@@ -11,10 +11,10 @@ const smallNum2 = 0.085;
 const timeDivider = 200; // the smaller the divider, the shorter the steps
 //laser
 var laserSoundEffect = new Audio("asset/laserSoundEffect.mp3");
-laserSoundEffect.addEventListener('ended', function() {
+/*laserSoundEffect.addEventListener('ended', function() {
     this.currentTime = 0;
     this.play();
-}, false);
+}, false);*/
 laserSoundEffect.play();
 //background
 var backgroundMusic = new Audio("asset/glasba2.mp3");
@@ -177,9 +177,23 @@ GameScene.prototype.update = function (delta) {
      (Math.cos(difTime/timeDivider) < smallNum2 && Math.cos(difTime/timeDivider) > smallNum1)) {
         //console.log(Math.cos(difTime/200));
         footstepSoundEffect.play();
-        // Je potrebno 2x?
-        //console.log(footstepSoundEffect.play());
+        //console.log(orientation);
     }
+
+
+    /*/
+    //checking if it is time to play the laser sound
+    var heroVec = vec3.create();
+    vec3.subtract(heroVec, this.hero.position, this.cthun.laser.position);
+    var laserVec = vec3.fromValues(Math.cos(orientation-3.14), 0, Math.sin(orientation-3.14));
+    if(vec3.angle(heroVec,laserVec) > 5 && vec3.angle(heroVec,laserVec) < 5.5 && laserSoundEffect.paused) {
+        laserSoundEffect.play();
+    } else if (vec3.angle(heroVec,laserVec) > 2 && vec3.angle(heroVec,laserVec) < 2.5 && !laserSoundEffect.paused) {
+        laserSoundEffect.pause();
+        laserSoundEffect.currentTime = 0;
+    }
+    /*/
+
 
     this.cthun.laser.flickering = 0.5 * (Math.random() - 0.5);
     var laserDirection = vec3.create();
@@ -190,10 +204,12 @@ GameScene.prototype.update = function (delta) {
     gl.useProgram(program);
     gl.uniform3fv(program.laserDirectionUniformLocation, laserDirection);
     gl.uniform1f(program.laserFlickeringUniformLocation, this.cthun.laser.flickering);
+
     program = programs['arena-tex'];
     gl.useProgram(program);
     gl.uniform3fv(program.laserDirectionUniformLocation, laserDirection);
     gl.uniform1f(program.laserFlickeringUniformLocation, this.cthun.laser.flickering);
+
 };
 
 /**
