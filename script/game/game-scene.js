@@ -106,8 +106,20 @@ GameScene.prototype.update = function (delta) {
     	speedModify = 15 - difTime * (12/60000);
     }
     var orientation = this.cthun.orientation + delta * (this.cthun.speed / speedModify);
+    orientation = (orientation >= 2 * Math.PI) ? (orientation - 2 * Math.PI) : orientation;
     this.cthun.orientation = orientation;
     this.cthun.laser.orientation = orientation;
+    this.cthun.laser.length = 100;
+
+    var hitting = undefined;
+    for (var i = 0; i < this.columns.length; ++i) {
+        if (this.columns[i].isOnAngle(orientation)) {
+            hitting = this.columns[i];
+            this.cthun.laser.length = hitting.distance;
+            break;
+        }
+    }
+
     this.cthun.laser.flickering = 0.5 * (Math.random() - 0.5);
     var laserDirection = vec3.create();
     laserDirection[0] = Math.sin(orientation);
