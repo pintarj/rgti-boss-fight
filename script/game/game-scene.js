@@ -15,7 +15,7 @@ var laserSoundEffect = new Audio("asset/laserSoundEffect.mp3");
     this.currentTime = 0;
     this.play();
 }, false);*/
-laserSoundEffect.play();
+//laserSoundEffect.play();
 //background
 var backgroundMusic = new Audio("asset/glasba2.mp3");
 backgroundMusic.play();
@@ -178,21 +178,15 @@ GameScene.prototype.update = function (delta) {
         //console.log(Math.cos(difTime/200));
         footstepSoundEffect.play();
         //console.log(orientation);
-
-        //checking if it is time to play the laser sound
-        var heroVec = vec3.create();
-        vec3.subtract(heroVec, this.hero.position, this.cthun.laser.position);
-        var laserVec = vec3.fromValues(Math.cos(orientation-3.14), 0, Math.sin(orientation-3.14));
-        console.log(vec3.angle(heroVec,laserVec));
     }
     
     //checking if it is time to play the laser sound
     var heroVec = vec3.create();
     vec3.subtract(heroVec, this.hero.position, this.cthun.laser.position);
     var laserVec = vec3.fromValues(Math.cos(orientation-3.14), 0, Math.sin(orientation-3.14));
-    if(vec3.angle(heroVec,laserVec) > 5 && vec3.angle(heroVec,laserVec) < 5.5 && laserSoundEffect.paused) {
+    if(vec3.angle(heroVec,laserVec) > 3.0 && vec3.angle(heroVec,laserVec) < 3.1 && laserSoundEffect.paused) {
         laserSoundEffect.play();
-    } else if (vec3.angle(heroVec,laserVec) > 2 && vec3.angle(heroVec,laserVec) < 2.5 && !laserSoundEffect.paused) {
+    } else if (vec3.angle(heroVec,laserVec) > 0.5 && vec3.angle(heroVec,laserVec) < 0.6 && !laserSoundEffect.paused) {
         laserSoundEffect.pause();
         laserSoundEffect.currentTime = 0;
     }
