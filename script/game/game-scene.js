@@ -178,10 +178,14 @@ GameScene.prototype.update = function (delta) {
         //console.log(Math.cos(difTime/200));
         footstepSoundEffect.play();
         //console.log(orientation);
+
+        //checking if it is time to play the laser sound
+        var heroVec = vec3.create();
+        vec3.subtract(heroVec, this.hero.position, this.cthun.laser.position);
+        var laserVec = vec3.fromValues(Math.cos(orientation-3.14), 0, Math.sin(orientation-3.14));
+        console.log(vec3.angle(heroVec,laserVec));
     }
-
-
-    /*/
+    
     //checking if it is time to play the laser sound
     var heroVec = vec3.create();
     vec3.subtract(heroVec, this.hero.position, this.cthun.laser.position);
@@ -192,7 +196,6 @@ GameScene.prototype.update = function (delta) {
         laserSoundEffect.pause();
         laserSoundEffect.currentTime = 0;
     }
-    /*/
 
 
     this.cthun.laser.flickering = 0.5 * (Math.random() - 0.5);
