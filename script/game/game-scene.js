@@ -305,31 +305,6 @@ GameScene.prototype.onMouseMove = function (event) {
 };
 
 /**
- * Stop audio playback with fade out effect
- * @param {Audio} sound
- * */
-function fadeOut(sound) {
-    var interval = setInterval(function (sound) {
-
-        var newVolume = sound.volume - 0.1;
-
-        // Check if the newVolume is greater than zero
-        if(newVolume >= 0){
-            sound.volume = newVolume;
-        }
-        else{
-            // Stop fade
-            clearInterval(interval);
-            sound.volume = 0;
-            sound.pause();
-            sound.currentTIme = 0;
-        }
-
-    }, 200);
-}
-
-
-/**
  * Called when the game is finished. The it returns to the menu.
  * @param {boolean} victory - True if the game was won, false otherwise.
  * */
