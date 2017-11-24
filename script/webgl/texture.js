@@ -25,7 +25,8 @@ function createTexture(image) {
  * The array that contains all textures asserts names to load at boot.
  * */
 var textureNames = [
-    'cthun-tex'
+    'cthun-tex',
+    'hero-tex'
 ];
 
 /**

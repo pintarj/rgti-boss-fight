@@ -3,7 +3,7 @@
  * Create a Hero object.
  * */
 function Hero() {
-    SceneObject.call(this, 'hero', 'janez');
+    SceneObject.call(this, 'hero', 'arena-tex', 'hero-tex');
     this.angle = 0;
     this.distance = 0;
     this.setPosition([5, 0, 55]);
