@@ -122,7 +122,7 @@ GameScene.prototype.update = function (delta) {
 
     //win condition
     if(winCondition){
-        console.log("WINNING!");
+        
     }
 
     // update Cthun and its laser
