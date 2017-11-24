@@ -176,12 +176,20 @@ GameScene.prototype.update = function (delta) {
         }
     }
 
+    /*/
     //checking if it is time to play the footstep sound
     if((this.wasd[0] || this.wasd[1] || this.wasd[2] || this.wasd[3]) &&
      (Math.cos(difTime/timeDivider) < smallNum2 && Math.cos(difTime/timeDivider) > smallNum1)) {
         footstepSoundEffect.play();
     }
-
+    /*/
+    //checking if it is time to play the footstep sound
+    if((this.wasd[0] || this.wasd[1] || this.wasd[2] || this.wasd[3]) && footstepSoundEffect.paused) {
+        footstepSoundEffect.play();
+    } else if(!(this.wasd[0] || this.wasd[1] || this.wasd[2] || this.wasd[3]) && !footstepSoundEffect.paused) {
+        footstepSoundEffect.pause();
+        footstepSoundEffect.currentTime = 0;
+    }
     
     //checking if it is time to play the laser sound
     var heroVec = vec3.create();
