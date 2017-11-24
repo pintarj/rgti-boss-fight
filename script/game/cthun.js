@@ -4,10 +4,12 @@
  * */
 function Cthun() {
     SceneObject.call(this, 'cthun', 'janez');
-    this.setPosition([0, 0, 0]);
-    this.speed = 2 * Math.PI / 1; // one turn every 10s
+    this.setPosition([0, 1.3, 0]);
+    this.speed = 2 * Math.PI;
     this.orientation = 0;
     this.laser = new Laser();
+    this.base = new SceneObject('cthun-base', 'janez');
+    this.base.setPosition([0, 0, 0]);
 }
 
 /**
@@ -32,5 +34,6 @@ Cthun.prototype.calculateViewMatrix = function () {
 
 Cthun.prototype.draw = function() {
     SceneObject.prototype.draw.call(this);
+    this.base.draw();
     this.laser.draw();
 };
